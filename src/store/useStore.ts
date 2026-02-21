@@ -18,6 +18,8 @@ export interface ChurchInfo {
   instagramVisible: boolean;
   kakao: string;
   kakaoVisible: boolean;
+  locationDesc: string;
+  parkingInfo: string;
   worshipTimes: WorshipTime[];
 }
 
@@ -75,6 +77,8 @@ const defaultInfo: ChurchInfo = {
   instagramVisible: true,
   kakao: 'https://pf.kakao.com',
   kakaoVisible: true,
+  locationDesc: '울산 중구 동동 산전마을 입구 부근에 위치하고 있습니다.',
+  parkingInfo: '교회 전용 주차장 및 인근 공영주차장 이용이 가능합니다.',
   worshipTimes: [
     { id: '1', name: '주일 1부 예배', time: '오전 11:00' },
     { id: '2', name: '주일 2부 예배', time: '오후 01:30' },

@@ -60,26 +60,6 @@ export default function AdminInfo({ markDirty }: { markDirty: () => void }) {
               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors text-green-700 font-medium"
             />
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-2">교회 주소</label>
-              <input
-                type="text"
-                value={info.address}
-                onChange={(e) => handleChange('address', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-2">대표 연락처</label>
-              <input
-                type="text"
-                value={info.phone}
-                onChange={(e) => handleChange('phone', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -174,26 +154,28 @@ export default function AdminInfo({ markDirty }: { markDirty: () => void }) {
           </button>
         </div>
         
-        <div className="space-y-3">
+        <div className="space-y-4">
           {info.worshipTimes.map((worship) => (
-            <div key={worship.id} className="flex items-center space-x-4">
+            <div key={worship.id} className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 p-4 bg-slate-50 rounded-2xl border border-gray-100">
               <input
                 type="text"
                 value={worship.name}
                 onChange={(e) => handleWorshipChange(worship.id, 'name', e.target.value)}
                 placeholder="예배명 (예: 주일 1부 예배)"
-                className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
+                className="w-full md:flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors bg-white"
               />
-              <input
-                type="text"
-                value={worship.time}
-                onChange={(e) => handleWorshipChange(worship.id, 'time', e.target.value)}
-                placeholder="시간 (예: 오전 11:00)"
-                className="w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
-              />
-              <button onClick={() => removeWorshipTime(worship.id)} className="p-3 text-gray-400 hover:text-red-500 transition-colors">
-                <Trash2 size={20} />
-              </button>
+              <div className="flex w-full md:w-auto items-center space-x-2">
+                <input
+                  type="text"
+                  value={worship.time}
+                  onChange={(e) => handleWorshipChange(worship.id, 'time', e.target.value)}
+                  placeholder="시간 (예: 오전 11:00)"
+                  className="flex-1 md:w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors bg-white"
+                />
+                <button onClick={() => removeWorshipTime(worship.id)} className="p-3 text-gray-400 hover:text-red-500 transition-colors">
+                  <Trash2 size={20} />
+                </button>
+              </div>
             </div>
           ))}
         </div>

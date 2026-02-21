@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Info, BookOpen, Bell, LogOut, Save, Lock, AlertCircle } from 'lucide-react';
+import { Home, Info, BookOpen, Bell, LogOut, Save, Lock, AlertCircle, MapPin } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '../store/useStore';
 import AdminInfo from '../components/admin/AdminInfo';
 import AdminIntro from '../components/admin/AdminIntro';
 import AdminSermons from '../components/admin/AdminSermons';
 import AdminNews from '../components/admin/AdminNews';
+import AdminLocation from '../components/admin/AdminLocation';
 import { motion, AnimatePresence } from 'motion/react';
 
-type Tab = 'info' | 'intro' | 'sermons' | 'news';
+type Tab = 'info' | 'intro' | 'sermons' | 'news' | 'location';
 
 export default function Admin() {
   const { adminPassword } = useStore();
@@ -40,6 +41,7 @@ export default function Admin() {
     { id: 'intro', name: '교회 소개 수정', icon: Info },
     { id: 'sermons', name: '설교 관리', icon: BookOpen },
     { id: 'news', name: '소식 관리', icon: Bell },
+    { id: 'location', name: '오시는 길 관리', icon: MapPin },
   ] as const;
 
   if (!isLoggedIn) {
@@ -172,6 +174,7 @@ export default function Admin() {
           {activeTab === 'intro' && <AdminIntro markDirty={() => setIsDirty(true)} />}
           {activeTab === 'sermons' && <AdminSermons markDirty={() => setIsDirty(true)} />}
           {activeTab === 'news' && <AdminNews markDirty={() => setIsDirty(true)} />}
+          {activeTab === 'location' && <AdminLocation markDirty={() => setIsDirty(true)} />}
         </div>
       </main>
 

@@ -21,7 +21,12 @@ export default function AdminIntro({ markDirty }: { markDirty: () => void }) {
         <div className="flex flex-col md:flex-row gap-8">
           <div className="w-48 h-48 rounded-3xl overflow-hidden bg-gray-100 flex-shrink-0">
             {intro.pastorImageUrl ? (
-              <img src={intro.pastorImageUrl} alt="담임목사" className="w-full h-full object-cover" />
+              <img 
+                src={intro.pastorImageUrl} 
+                alt="담임목사" 
+                className="w-full h-full object-cover" 
+                referrerPolicy="no-referrer"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400">이미지 없음</div>
             )}

@@ -59,7 +59,7 @@ export default function News() {
       <section className="bg-slate-900 text-white py-48 md:py-64 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img 
-            src="https://picsum.photos/seed/news/1920/1080?blur=5" 
+            src="https://picsum.photos/seed/church-community/1920/1080?blur=5" 
             alt="background" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -89,8 +89,13 @@ export default function News() {
           {currentNews.map((item) => (
             <div key={item.id} className="bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col md:flex-row gap-8">
               {item.imageUrl && (
-                <div className="w-full md:w-64 h-48 rounded-2xl overflow-hidden flex-shrink-0">
-                  <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" />
+                <div className="w-full md:w-64 h-48 rounded-2xl overflow-hidden flex-shrink-0 bg-gray-100">
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover" 
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
               )}
               <div className="flex-1 flex flex-col justify-center">

@@ -10,7 +10,7 @@ export default function Intro() {
       <section className="bg-slate-900 text-white py-48 md:py-64 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img 
-            src="https://picsum.photos/seed/church-intro/1920/1080?blur=5" 
+            src="https://picsum.photos/seed/church-interior/1920/1080?blur=5" 
             alt="background" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -81,7 +81,7 @@ export default function Intro() {
               {intro.visionTitle}
             </h2>
             <div className="relative inline-block">
-              <div className="absolute -inset-2 bg-green-50 rounded-lg -rotate-1"></div>
+              <div className="absolute -inset-2 bg-green-50 rounded-lg"></div>
               <p className="relative text-2xl md:text-3xl font-bold text-green-700 italic leading-relaxed px-4">
                 "{intro.visionSlogan}"
               </p>

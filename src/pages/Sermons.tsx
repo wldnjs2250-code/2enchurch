@@ -72,7 +72,7 @@ export default function Sermons() {
       <section className="bg-slate-900 text-white py-48 md:py-64 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img 
-            src="https://picsum.photos/seed/sermons/1920/1080?blur=5" 
+            src="https://picsum.photos/seed/church-worship/1920/1080?blur=5" 
             alt="background" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -111,12 +111,28 @@ export default function Sermons() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentSermons.map((sermon) => (
-            <div key={sermon.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer">
+            <a 
+              key={sermon.id} 
+              href={sermon.youtubeUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer"
+            >
               <div className="relative aspect-video bg-gray-900">
-                {sermon.imageUrl ? (
-                  <img src={sermon.imageUrl} alt={sermon.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                ) : getYoutubeId(sermon.youtubeUrl) ? (
-                  <img src={`https://img.youtube.com/vi/${getYoutubeId(sermon.youtubeUrl)}/maxresdefault.jpg`} alt={sermon.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                {getYoutubeId(sermon.youtubeUrl) ? (
+                  <img 
+                    src={`https://img.youtube.com/vi/${getYoutubeId(sermon.youtubeUrl)}/hqdefault.jpg`} 
+                    alt={sermon.title} 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
+                    referrerPolicy="no-referrer"
+                  />
+                ) : sermon.imageUrl ? (
+                  <img 
+                    src={sermon.imageUrl} 
+                    alt={sermon.title} 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
+                    referrerPolicy="no-referrer"
+                  />
                 ) : (
                   <div className="w-full h-full bg-slate-800 flex items-center justify-center">
                     <Play className="text-white w-12 h-12 opacity-50" />
@@ -136,7 +152,7 @@ export default function Sermons() {
                   <span className="italic">{sermon.passage}</span>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 

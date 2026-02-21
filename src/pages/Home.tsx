@@ -9,6 +9,7 @@ export default function Home() {
   const { info, sermons, news } = useStore();
   const [sermonIndex, setSermonIndex] = useState(0);
   const [newsIndex, setNewsIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // Get top 3 latest items
   const topSermons = [...sermons].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3);
@@ -20,8 +21,14 @@ export default function Home() {
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  const nextSermon = () => setSermonIndex((prev) => (prev + 1) % topSermons.length);
-  const prevSermon = () => setSermonIndex((prev) => (prev - 1 + topSermons.length) % topSermons.length);
+  const nextSermon = () => {
+    setSermonIndex((prev) => (prev + 1) % topSermons.length);
+    setIsPlaying(false);
+  };
+  const prevSermon = () => {
+    setSermonIndex((prev) => (prev - 1 + topSermons.length) % topSermons.length);
+    setIsPlaying(false);
+  };
 
   const nextNews = () => setNewsIndex((prev) => (prev + 1) % topNews.length);
   const prevNews = () => setNewsIndex((prev) => (prev - 1 + topNews.length) % topNews.length);
@@ -32,7 +39,7 @@ export default function Home() {
       <section className="bg-slate-900 text-white py-48 md:py-64 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img 
-            src="https://picsum.photos/seed/church/1920/1080?blur=10" 
+            src="https://picsum.photos/seed/church-cross/1920/1080?blur=10" 
             alt="background" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
@@ -124,30 +131,45 @@ export default function Home() {
                   className="absolute inset-0 bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
                 >
                   <div className="md:w-3/5 relative aspect-video md:aspect-auto bg-gray-900 group cursor-pointer overflow-hidden">
-                    {topSermons[sermonIndex].imageUrl ? (
-                      <img 
-                        src={topSermons[sermonIndex].imageUrl} 
-                        alt={topSermons[sermonIndex].title} 
-                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : getYoutubeId(topSermons[sermonIndex].youtubeUrl) ? (
-                      <img 
-                        src={`https://img.youtube.com/vi/${getYoutubeId(topSermons[sermonIndex].youtubeUrl)}/maxresdefault.jpg`} 
-                        alt={topSermons[sermonIndex].title} 
-                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
-                        referrerPolicy="no-referrer"
-                      />
+                    {isPlaying && getYoutubeId(topSermons[sermonIndex].youtubeUrl) ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${getYoutubeId(topSermons[sermonIndex].youtubeUrl)}?autoplay=1`}
+                        title={topSermons[sermonIndex].title}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
                     ) : (
-                      <div className="w-full h-full bg-slate-800 flex items-center justify-center">
-                        <Play className="text-white w-24 h-24 opacity-50" />
-                      </div>
+                      <>
+                        {getYoutubeId(topSermons[sermonIndex].youtubeUrl) ? (
+                          <img 
+                            src={`https://img.youtube.com/vi/${getYoutubeId(topSermons[sermonIndex].youtubeUrl)}/hqdefault.jpg`} 
+                            alt={topSermons[sermonIndex].title} 
+                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : topSermons[sermonIndex].imageUrl ? (
+                          <img 
+                            src={topSermons[sermonIndex].imageUrl} 
+                            alt={topSermons[sermonIndex].title} 
+                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                            <Play className="text-white w-24 h-24 opacity-50" />
+                          </div>
+                        )}
+                        <div 
+                          className="absolute inset-0 flex items-center justify-center"
+                          onClick={() => setIsPlaying(true)}
+                        >
+                          <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                            <Play className="text-green-700 w-6 h-6 md:w-10 md:h-10 ml-1" />
+                          </div>
+                        </div>
+                      </>
                     )}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                        <Play className="text-green-700 w-6 h-6 md:w-10 md:h-10 ml-1" />
-                      </div>
-                    </div>
                   </div>
                   <div className="md:w-2/5 p-8 md:p-16 flex flex-col justify-center">
                     <span className="text-sm md:text-lg font-bold text-green-700 mb-4 md:mb-6">{topSermons[sermonIndex].date}</span>
