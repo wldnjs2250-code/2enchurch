@@ -7,48 +7,53 @@ export default function Location() {
   return (
     <div className="bg-slate-50 min-h-screen pb-24">
       <section className="bg-slate-900 text-white py-24 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">오시는 길</h1>
-        <p className="text-slate-400">산전온누리교회는 언제나 당신의 방문을 기다립니다.</p>
+        <h1 className="text-3xl sm:text-5xl font-bold mb-4">오시는 길</h1>
+        <p className="text-slate-400 px-4">산전온누리교회는 언제나 당신의 방문을 기다립니다.</p>
       </section>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Info Cards */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex items-start space-x-6">
-              <div className="bg-green-50 p-4 rounded-2xl text-green-700 flex-shrink-0">
-                <MapPin size={28} />
+          <div className="lg:col-span-1 flex flex-col lg:h-[600px] space-y-6">
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 flex flex-col justify-center items-center text-center flex-1 group hover:border-green-700 transition-colors">
+              <div className="bg-green-50 p-5 rounded-3xl text-green-700 mb-6 group-hover:bg-green-700 group-hover:text-white transition-all">
+                <MapPin size={32} />
               </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">주소</h3>
-                <p className="text-gray-600 mb-1">도로명: {info.address.split('(')[0].trim()}</p>
-                <p className="text-sm text-gray-400 italic">지번: {info.address.match(/\((.*?)\)/)?.[1] || ''}</p>
-              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">교회 주소</h3>
+              <p className="text-gray-600 font-medium leading-relaxed">
+                {info.address.split('(')[0].trim()}
+              </p>
+              <p className="text-sm text-gray-400 mt-2 italic">
+                {info.address.match(/\((.*?)\)/)?.[1] || ''}
+              </p>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 flex items-start space-x-6">
-              <div className="bg-blue-50 p-4 rounded-2xl text-blue-600 flex-shrink-0">
-                <Phone size={28} />
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-gray-100 flex flex-col justify-center items-center text-center flex-1 group hover:border-blue-600 transition-colors">
+              <div className="bg-blue-50 p-5 rounded-3xl text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                <Phone size={32} />
               </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">전화</h3>
-                <p className="text-gray-600">{info.phone}</p>
-              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">대표 전화</h3>
+              <p className="text-2xl font-bold text-gray-900 tracking-tight">
+                {info.phone}
+              </p>
             </div>
 
-            <div className="bg-slate-900 rounded-3xl p-8 shadow-md text-white">
-              <div className="flex items-center space-x-4 mb-6">
-                <Clock className="text-green-400" size={24} />
-                <h3 className="text-lg font-bold">교회 안내</h3>
-              </div>
-              <div className="space-y-6">
-                <div>
-                  <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">위치 설명</h4>
-                  <p className="text-sm leading-relaxed text-slate-200">울산 중구 동동 산전마을 입구 부근에 위치하고 있습니다.</p>
+            <div className="bg-slate-900 rounded-[2.5rem] p-10 shadow-2xl text-white flex-[1.2] flex flex-col justify-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-green-700/20 rounded-full -mr-16 -mt-16"></div>
+              <div className="relative z-10">
+                <div className="flex items-center space-x-4 mb-8">
+                  <Clock className="text-green-400" size={28} />
+                  <h3 className="text-xl font-bold">교회 안내</h3>
                 </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">주차 안내</h4>
-                  <p className="text-sm leading-relaxed text-slate-200">교회 전용 주차장 및 인근 공영주차장 이용이 가능합니다.</p>
+                <div className="space-y-8">
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">위치 설명</h4>
+                    <p className="text-base leading-relaxed text-slate-200">울산 중구 동동 산전마을 입구 부근에 위치하고 있습니다.</p>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">주차 안내</h4>
+                    <p className="text-base leading-relaxed text-slate-200">교회 전용 주차장 및 인근 공영주차장 이용이 가능합니다.</p>
+                  </div>
                 </div>
               </div>
             </div>

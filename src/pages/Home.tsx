@@ -42,7 +42,7 @@ export default function Home() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-8xl font-bold mb-8 tracking-tighter"
+            className="text-4xl sm:text-6xl md:text-8xl font-bold mb-8 tracking-tighter"
           >
             {info.name}
           </motion.h1>
@@ -50,7 +50,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl md:text-3xl text-slate-300 font-light tracking-widest uppercase"
+            className="text-lg sm:text-2xl md:text-3xl text-slate-300 font-light tracking-widest uppercase"
           >
             {info.slogan}
           </motion.p>
@@ -58,35 +58,37 @@ export default function Home() {
       </section>
 
       {/* Quick Links */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-20 mb-32">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Link to="/intro" className="bg-white rounded-3xl p-10 shadow-2xl hover:shadow-green-700/10 transition-all hover:-translate-y-2 flex items-center justify-between group border border-gray-100">
-            <div className="flex items-center space-x-6">
-              <div className="bg-slate-50 p-5 rounded-2xl text-slate-600 group-hover:bg-green-50 group-hover:text-green-700 transition-colors">
-                <Info size={32} />
+      <section className="bg-white py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <Link to="/intro" className="bg-slate-50 rounded-3xl p-6 md:p-10 shadow-sm hover:shadow-green-700/10 transition-all hover:-translate-y-2 flex items-center justify-between group border border-gray-100">
+              <div className="flex items-center space-x-4 md:space-x-6">
+                <div className="bg-white p-4 md:p-5 rounded-2xl text-slate-600 group-hover:bg-green-50 group-hover:text-green-700 transition-colors shadow-sm">
+                  <Info size={28} className="md:w-8 md:h-8" />
+                </div>
+                <span className="text-xl md:text-2xl font-bold text-gray-900">교회 소개</span>
               </div>
-              <span className="text-2xl font-bold text-gray-900">교회 소개</span>
-            </div>
-            <ArrowRight className="text-gray-300 group-hover:text-green-700 transition-colors" size={28} />
-          </Link>
-          <Link to="/sermons" className="bg-green-700 rounded-3xl p-10 shadow-2xl hover:shadow-green-700/30 transition-all hover:-translate-y-2 flex items-center justify-between group text-white">
-            <div className="flex items-center space-x-6">
-              <div className="bg-green-600 p-5 rounded-2xl text-white">
-                <Calendar size={32} />
+              <ArrowRight className="text-gray-300 group-hover:text-green-700 transition-colors" size={24} />
+            </Link>
+            <Link to="/sermons" className="bg-green-700 rounded-3xl p-6 md:p-10 shadow-xl hover:shadow-green-700/30 transition-all hover:-translate-y-2 flex items-center justify-between group text-white">
+              <div className="flex items-center space-x-4 md:space-x-6">
+                <div className="bg-green-600 p-4 md:p-5 rounded-2xl text-white shadow-sm">
+                  <Calendar size={28} className="md:w-8 md:h-8" />
+                </div>
+                <span className="text-xl md:text-2xl font-bold">예배 안내</span>
               </div>
-              <span className="text-2xl font-bold">예배 안내</span>
-            </div>
-            <ArrowRight className="text-green-300 group-hover:text-white transition-colors" size={28} />
-          </Link>
-          <Link to="/location" className="bg-white rounded-3xl p-10 shadow-2xl hover:shadow-green-700/10 transition-all hover:-translate-y-2 flex items-center justify-between group border border-gray-100">
-            <div className="flex items-center space-x-6">
-              <div className="bg-slate-50 p-5 rounded-2xl text-slate-600 group-hover:bg-green-50 group-hover:text-green-700 transition-colors">
-                <MapPin size={32} />
+              <ArrowRight className="text-green-300 group-hover:text-white transition-colors" size={24} />
+            </Link>
+            <Link to="/location" className="bg-slate-50 rounded-3xl p-6 md:p-10 shadow-sm hover:shadow-green-700/10 transition-all hover:-translate-y-2 flex items-center justify-between group border border-gray-100">
+              <div className="flex items-center space-x-4 md:space-x-6">
+                <div className="bg-white p-4 md:p-5 rounded-2xl text-slate-600 group-hover:bg-green-50 group-hover:text-green-700 transition-colors shadow-sm">
+                  <MapPin size={28} className="md:w-8 md:h-8" />
+                </div>
+                <span className="text-xl md:text-2xl font-bold text-gray-900">오시는 길</span>
               </div>
-              <span className="text-2xl font-bold text-gray-900">오시는 길</span>
-            </div>
-            <ArrowRight className="text-gray-300 group-hover:text-green-700 transition-colors" size={28} />
-          </Link>
+              <ArrowRight className="text-gray-300 group-hover:text-green-700 transition-colors" size={24} />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -112,14 +114,14 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="relative h-[500px] md:h-[600px]">
+            <div className="relative h-auto min-h-[600px] md:h-[600px]">
               <AnimatePresence mode="wait">
                 <motion.div 
                   key={topSermons[sermonIndex].id}
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -50 }}
-                  className="absolute inset-0 bg-white rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
+                  className="absolute inset-0 bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
                 >
                   <div className="md:w-3/5 relative aspect-video md:aspect-auto bg-gray-900 group cursor-pointer overflow-hidden">
                     {topSermons[sermonIndex].imageUrl ? (
@@ -142,16 +144,21 @@ export default function Home() {
                       </div>
                     )}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                        <Play className="text-green-700 w-10 h-10 ml-1" />
+                      <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                        <Play className="text-green-700 w-6 h-6 md:w-10 md:h-10 ml-1" />
                       </div>
                     </div>
                   </div>
-                  <div className="md:w-2/5 p-12 md:p-20 flex flex-col justify-center">
-                    <span className="text-lg font-bold text-green-700 mb-6">{topSermons[sermonIndex].date}</span>
-                    <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">{topSermons[sermonIndex].title}</h3>
-                    <p className="text-xl text-gray-500 mb-12">{topSermons[sermonIndex].pastor} <span className="mx-2 text-gray-200">|</span> {topSermons[sermonIndex].passage}</p>
-                    <Link to="/sermons" className="inline-flex items-center text-lg font-bold text-green-700 hover:text-green-800 transition-colors group">
+                  <div className="md:w-2/5 p-8 md:p-16 flex flex-col justify-center">
+                    <span className="text-sm md:text-lg font-bold text-green-700 mb-4 md:mb-6">{topSermons[sermonIndex].date}</span>
+                    <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 md:mb-8 leading-tight line-clamp-3 md:line-clamp-2">
+                      {topSermons[sermonIndex].title}
+                    </h3>
+                    <div className="space-y-1 mb-8 md:mb-12">
+                      <p className="text-lg md:text-xl font-bold text-gray-900">{topSermons[sermonIndex].pastor}</p>
+                      <p className="text-base md:text-lg text-gray-500 font-medium">{topSermons[sermonIndex].passage}</p>
+                    </div>
+                    <Link to="/sermons" className="inline-flex items-center text-base md:text-lg font-bold text-green-700 hover:text-green-800 transition-colors group">
                       전체 설교 보기 <ArrowRight size={20} className="ml-3 group-hover:translate-x-2 transition-transform" />
                     </Link>
                   </div>
@@ -184,14 +191,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative h-[450px] md:h-[350px]">
+            <div className="relative h-auto min-h-[450px] md:h-[350px]">
               <AnimatePresence mode="wait">
                 <motion.div 
                   key={topNews[newsIndex].id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className="absolute inset-0 bg-white border border-gray-100 rounded-[3rem] shadow-xl hover:shadow-2xl transition-all flex flex-col md:flex-row overflow-hidden"
+                  className="absolute inset-0 bg-white border border-gray-100 rounded-[2rem] md:rounded-[3rem] shadow-xl hover:shadow-2xl transition-all flex flex-col md:flex-row overflow-hidden"
                 >
                   {topNews[newsIndex].imageUrl && (
                     <div className="md:w-1/3 h-48 md:h-full flex-shrink-0">
@@ -204,15 +211,15 @@ export default function Home() {
                     </div>
                   )}
                   <div className={clsx(
-                    "flex-1 p-8 md:p-12 flex flex-col justify-center",
-                    !topNews[newsIndex].imageUrl && "text-center items-center"
+                    "flex-1 p-8 md:p-12 flex flex-col justify-center text-left",
+                    !topNews[newsIndex].imageUrl && "items-start"
                   )}>
-                    <span className="text-sm font-bold text-green-700 mb-4 block uppercase tracking-widest">{topNews[newsIndex].date}</span>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 line-clamp-1">{topNews[newsIndex].title}</h3>
-                    <p className="text-lg text-gray-600 mb-8 line-clamp-2 leading-relaxed max-w-2xl">
+                    <span className="text-xs md:text-sm font-bold text-green-700 mb-4 block uppercase tracking-widest">{topNews[newsIndex].date}</span>
+                    <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6 line-clamp-1">{topNews[newsIndex].title}</h3>
+                    <p className="text-base md:text-lg text-gray-600 mb-6 md:mb-8 line-clamp-3 md:line-clamp-2 leading-relaxed max-w-2xl">
                       {topNews[newsIndex].content}
                     </p>
-                    <Link to="/news" className="inline-flex items-center text-lg font-bold text-green-700 hover:text-green-800 transition-colors group">
+                    <Link to="/news" className="inline-flex items-center text-base md:text-lg font-bold text-green-700 hover:text-green-800 transition-colors group">
                       자세히 보기 <ArrowRight size={20} className="ml-3 group-hover:translate-x-2 transition-transform" />
                     </Link>
                   </div>

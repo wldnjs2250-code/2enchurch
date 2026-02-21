@@ -125,7 +125,10 @@ export default function AdminSermons({ markDirty }: { markDirty: () => void }) {
           {currentSermons.map((sermon) => (
             <div key={sermon.id} className="flex items-center justify-between p-5 rounded-2xl bg-slate-50 border border-transparent hover:border-gray-200 transition-colors group">
               <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">{sermon.title}</h3>
+                <div className="flex items-center space-x-2 mb-1">
+                  {sermon.isPinned && <Pin size={14} className="text-green-700" />}
+                  <h3 className="text-lg font-bold text-gray-900">{sermon.title}</h3>
+                </div>
                 <p className="text-sm text-gray-500">{sermon.date} • {sermon.pastor}</p>
               </div>
               <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">

@@ -13,8 +13,11 @@ export interface ChurchInfo {
   address: string;
   phone: string;
   youtube: string;
+  youtubeVisible: boolean;
   instagram: string;
+  instagramVisible: boolean;
   kakao: string;
+  kakaoVisible: boolean;
   worshipTimes: WorshipTime[];
 }
 
@@ -67,8 +70,11 @@ const defaultInfo: ChurchInfo = {
   address: '울산광역시 중구 산전길 103 (동동 162-4)',
   phone: '052-296-3550',
   youtube: 'https://youtube.com',
+  youtubeVisible: true,
   instagram: 'https://instagram.com',
+  instagramVisible: true,
   kakao: 'https://pf.kakao.com',
+  kakaoVisible: true,
   worshipTimes: [
     { id: '1', name: '주일 1부 예배', time: '오전 11:00' },
     { id: '2', name: '주일 2부 예배', time: '오후 01:30' },

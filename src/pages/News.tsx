@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { Pin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
+import { motion } from 'motion/react';
 
 export default function News() {
   const { news } = useStore();
@@ -54,9 +55,33 @@ export default function News() {
 
   return (
     <div className="bg-slate-50 min-h-screen pb-24">
-      <section className="bg-slate-900 text-white py-24 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">교제와 소식</h1>
-        <p className="text-slate-400">산전온누리 공동체의 생생한 사역 현장과 소식을 전해드립니다.</p>
+      {/* Hero Header */}
+      <section className="bg-slate-900 text-white py-48 md:py-64 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <img 
+            src="https://picsum.photos/seed/news/1920/1080?blur=5" 
+            alt="background" 
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-5xl md:text-7xl font-bold mb-6 tracking-tight"
+          >
+            교제와 소식
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg sm:text-xl md:text-2xl text-slate-300 font-light tracking-widest uppercase"
+          >
+            산전온누리 공동체의 생생한 사역 현장과 소식을 전해드립니다.
+          </motion.p>
+        </div>
       </section>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
@@ -90,11 +115,10 @@ export default function News() {
           </div>
         )}
 
-        {totalPages > 1 && (
-          <div className="flex justify-center mt-20">
-            {renderPagination()}
-          </div>
-        )}
+        {/* Pagination */}
+        <div className="flex justify-center mt-20">
+          {renderPagination()}
+        </div>
       </div>
     </div>
   );

@@ -90,38 +90,73 @@ export default function AdminInfo({ markDirty }: { markDirty: () => void }) {
           <h2 className="text-xl font-bold text-gray-900">SNS 연결 링크</h2>
         </div>
         
-        <div className="space-y-4">
-          <div>
-            <label className="flex items-center text-xs font-semibold text-gray-500 mb-2">
-              <span className="text-red-500 mr-1">▶</span> 유튜브 링크
-            </label>
+        <div className="space-y-6">
+          <div className="bg-slate-50 p-6 rounded-2xl border border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <label className="flex items-center text-sm font-bold text-gray-700">
+                <span className="text-red-500 mr-2">▶</span> 유튜브
+              </label>
+              <button 
+                onClick={() => handleChange('youtubeVisible', !info.youtubeVisible)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  info.youtubeVisible ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-500'
+                }`}
+              >
+                {info.youtubeVisible ? '표시 중' : '숨김'}
+              </button>
+            </div>
             <input
               type="url"
               value={info.youtube}
               onChange={(e) => handleChange('youtube', e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
+              placeholder="https://youtube.com/..."
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors bg-white"
             />
           </div>
-          <div>
-            <label className="flex items-center text-xs font-semibold text-gray-500 mb-2">
-              <span className="text-pink-500 mr-1">📷</span> 인스타 링크
-            </label>
+
+          <div className="bg-slate-50 p-6 rounded-2xl border border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <label className="flex items-center text-sm font-bold text-gray-700">
+                <span className="text-pink-500 mr-2">📷</span> 인스타그램
+              </label>
+              <button 
+                onClick={() => handleChange('instagramVisible', !info.instagramVisible)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  info.instagramVisible ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-500'
+                }`}
+              >
+                {info.instagramVisible ? '표시 중' : '숨김'}
+              </button>
+            </div>
             <input
               type="url"
               value={info.instagram}
               onChange={(e) => handleChange('instagram', e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
+              placeholder="https://instagram.com/..."
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors bg-white"
             />
           </div>
-          <div>
-            <label className="flex items-center text-xs font-semibold text-gray-500 mb-2">
-              <span className="text-yellow-500 mr-1">💬</span> 카톡 링크
-            </label>
+
+          <div className="bg-slate-50 p-6 rounded-2xl border border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <label className="flex items-center text-sm font-bold text-gray-700">
+                <span className="text-yellow-500 mr-2">💬</span> 카카오톡 채널
+              </label>
+              <button 
+                onClick={() => handleChange('kakaoVisible', !info.kakaoVisible)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  info.kakaoVisible ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-500'
+                }`}
+              >
+                {info.kakaoVisible ? '표시 중' : '숨김'}
+              </button>
+            </div>
             <input
               type="url"
               value={info.kakao}
               onChange={(e) => handleChange('kakao', e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors"
+              placeholder="https://pf.kakao.com/..."
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-700/20 focus:border-green-700 transition-colors bg-white"
             />
           </div>
         </div>
