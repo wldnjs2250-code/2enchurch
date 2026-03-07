@@ -4,7 +4,7 @@
 
 [functions]
   directory = "netlify/functions"
-  external_node_modules = ["lightningcss", "esbuild"]
+  external_node_modules = ["lightningcss", "esbuild", "vite"]
 
 [[redirects]]
   from = "/api/*"

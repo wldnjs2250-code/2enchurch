@@ -8,7 +8,6 @@ dotenv.config();
 
 const { Pool } = pg;
 
-// Helper to get __dirname in ESM
 const getDirname = () => {
   try {
     const __filename = fileURLToPath(import.meta.url);
@@ -22,19 +21,13 @@ const __dirname = getDirname();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('localhost') ? false : {
+  ssl: {
     rejectUnauthorized: false
   }
 });
 
-// Initialize database
 async function initDb() {
-  if (!process.env.DATABASE_URL) {
-    console.error('CRITICAL: DATABASE_URL environment variable is missing.');
-    console.error('Please add DATABASE_URL to your environment variables/secrets.');
-    return;
-  }
-
+  if (!process.env.DATABASE_URL) return;
   try {
     const client = await pool.connect();
     try {
@@ -44,23 +37,18 @@ async function initDb() {
           content TEXT NOT NULL
         )
       `);
-      console.log('Database initialized successfully');
     } finally {
       client.release();
     }
-  } catch (err) {
-    console.error('Failed to connect to the database. Check if DATABASE_URL is correct.');
-    console.error('Error details:', err instanceof Error ? err.message : err);
-  }
+  } catch (err) {}
 }
 
-initDb().catch(err => console.error('DB Init Error:', err));
+initDb();
 
 export async function createServer() {
   const app = express();
   app.use(express.json());
 
-  // API Routes
   app.get('/api/data', async (req, res) => {
     if (!process.env.DATABASE_URL) {
       return res.status(500).json({ error: 'DATABASE_URL is not configured' });
@@ -73,7 +61,6 @@ export async function createServer() {
         res.json(null);
       }
     } catch (error) {
-      console.error('Fetch error:', error);
       res.status(500).json({ error: 'Failed to fetch data' });
     }
   });
@@ -90,21 +77,19 @@ export async function createServer() {
       `, ['main', content]);
       res.json({ success: true });
     } catch (error) {
-      console.error('Save error:', error);
       res.status(500).json({ error: 'Failed to save data' });
     }
   });
 
-  // Vite middleware for development
   if (process.env.NODE_ENV !== 'production' && !process.env.NETLIFY) {
-    const { createServer: createViteServer } = await import('vite');
-    const vite = await createViteServer({
+    const viteModule = 'vite';
+    const vite = await import(viteModule);
+    const viteServer = await vite.createServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
-    app.use(vite.middlewares);
+    app.use(viteServer.middlewares);
   } else if (!process.env.NETLIFY) {
-    // Standard production server (not Netlify)
     app.use(express.static(path.join(__dirname, 'dist')));
     app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, 'dist', 'index.html'));
