@@ -4,6 +4,8 @@ import { Play, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { motion } from 'motion/react';
 
+export const dynamic = 'force-dynamic';
+
 export default function Sermons() {
   const { sermons } = useStore();
   const [searchTerm, setSearchTerm] = useState('');

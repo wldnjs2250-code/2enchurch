@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -11,8 +12,15 @@ import Sermons from './pages/Sermons';
 import News from './pages/News';
 import Location from './pages/Location';
 import Admin from './pages/Admin';
+import { useStore } from './store/useStore';
 
 export default function App() {
+  const { fetchData } = useStore();
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <BrowserRouter>
       <Routes>

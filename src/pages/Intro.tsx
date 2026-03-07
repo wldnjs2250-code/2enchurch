@@ -1,6 +1,8 @@
 import { useStore } from '../store/useStore';
 import { motion } from 'motion/react';
 
+export const dynamic = 'force-dynamic';
+
 export default function Intro() {
   const { intro } = useStore();
 

@@ -64,6 +64,8 @@ interface AppState {
   setSermons: (sermons: Sermon[]) => void;
   setNews: (news: News[]) => void;
   setAdminPassword: (password: string) => void;
+  fetchData: () => Promise<void>;
+  saveToDB: () => Promise<void>;
 }
 
 const defaultInfo: ChurchInfo = {
@@ -150,7 +152,7 @@ const defaultNews: News[] = [
 
 export const useStore = create<AppState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       info: defaultInfo,
       intro: defaultIntro,
       sermons: defaultSermons,
@@ -161,6 +163,44 @@ export const useStore = create<AppState>()(
       setSermons: (sermons) => set({ sermons }),
       setNews: (news) => set({ news }),
       setAdminPassword: (adminPassword) => set({ adminPassword }),
+      fetchData: async () => {
+        try {
+          const response = await fetch('/api/data', { cache: 'no-store' });
+          const data = await response.json();
+          if (data) {
+            set({
+              info: data.info || defaultInfo,
+              intro: data.intro || defaultIntro,
+              sermons: data.sermons || defaultSermons,
+              news: data.news || defaultNews,
+              adminPassword: data.adminPassword || '1234',
+            });
+          }
+        } catch (error) {
+          console.error('Failed to fetch data:', error);
+        }
+      },
+      saveToDB: async () => {
+        const state = get();
+        const dataToSave = {
+          info: state.info,
+          intro: state.intro,
+          sermons: state.sermons,
+          news: state.news,
+          adminPassword: state.adminPassword,
+        };
+        try {
+          await fetch('/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSave),
+            cache: 'no-store'
+          });
+        } catch (error) {
+          console.error('Failed to save data:', error);
+          throw error;
+        }
+      },
     }),
     {
       name: 'church-storage',

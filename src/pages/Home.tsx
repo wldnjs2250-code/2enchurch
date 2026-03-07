@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight, Play, ArrowRight, MapPin, Calendar, Info } f
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'motion/react';
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   const { info, sermons, news } = useStore();
   const [sermonIndex, setSermonIndex] = useState(0);

@@ -13,12 +13,13 @@ import { motion, AnimatePresence } from 'motion/react';
 type Tab = 'info' | 'intro' | 'sermons' | 'news' | 'location';
 
 export default function Admin() {
-  const { adminPassword } = useStore();
+  const { adminPassword, saveToDB } = useStore();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState<Tab>('info');
   const [isDirty, setIsDirty] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
@@ -31,9 +32,17 @@ export default function Admin() {
     }
   };
 
-  const handleSave = () => {
-    setIsDirty(false);
-    alert('서버 DB에 최종 저장되었습니다.');
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await saveToDB();
+      setIsDirty(false);
+      alert('서버 DB에 최종 저장되었습니다.');
+    } catch (error) {
+      alert('저장에 실패했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const tabs = [
@@ -194,10 +203,14 @@ export default function Admin() {
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 rounded-lg text-sm font-medium bg-green-700 hover:bg-green-600 transition-colors flex items-center space-x-2"
+              disabled={isSaving}
+              className={clsx(
+                "px-6 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2",
+                isSaving ? "bg-slate-700 cursor-not-allowed" : "bg-green-700 hover:bg-green-600"
+              )}
             >
               <Save size={16} />
-              <span>서버 DB에 최종 저장</span>
+              <span>{isSaving ? '저장 중...' : '서버 DB에 최종 저장'}</span>
             </button>
           </div>
         </div>

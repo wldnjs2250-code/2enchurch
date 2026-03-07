@@ -4,6 +4,8 @@ import { Pin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { clsx } from 'clsx';
 import { motion } from 'motion/react';
 
+export const dynamic = 'force-dynamic';
+
 export default function News() {
   const { news } = useStore();
   const [currentPage, setCurrentPage] = useState(1);

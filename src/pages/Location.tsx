@@ -2,6 +2,8 @@ import { useStore } from '../store/useStore';
 import { MapPin, Phone, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 
+export const dynamic = 'force-dynamic';
+
 export default function Location() {
   const { info } = useStore();
 
