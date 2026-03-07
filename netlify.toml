@@ -4,8 +4,8 @@
 
 [functions]
   directory = "netlify/functions"
-  node_bundle = true
-  external_node_modules = ["lightningcss", "vite", "esbuild"]
+  external_node_modules = ["lightningcss", "esbuild"]
+  included_files = ["node_modules/pg/**"]
 
 [[redirects]]
   from = "/api/*"
