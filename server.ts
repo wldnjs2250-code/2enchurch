@@ -1,30 +1,40 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
-import Database from 'better-sqlite3';
+import pg from 'pg';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { Pool } = pg;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const db = new Database('church.db');
-
-/**
- * NOTE: To use NeonDB (Postgres), replace better-sqlite3 with 'pg' or '@neondatabase/serverless'.
- * Example:
- * import { neon } from '@neondatabase/serverless';
- * const sql = neon(process.env.DATABASE_URL);
- * 
- * Then update the API routes to use async/await with the sql client.
- */
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 // Initialize database
-db.exec(`
-  CREATE TABLE IF NOT EXISTS church_data (
-    id TEXT PRIMARY KEY,
-    content TEXT NOT NULL
-  )
-`);
+async function initDb() {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS church_data (
+        id TEXT PRIMARY KEY,
+        content TEXT NOT NULL
+      )
+    `);
+  } finally {
+    client.release();
+  }
+}
+
+initDb().catch(err => console.error('DB Init Error:', err));
 
 async function startServer() {
   const app = express();
@@ -33,28 +43,27 @@ async function startServer() {
   app.use(express.json());
 
   // API Routes
-  app.get('/api/data', (req, res) => {
+  app.get('/api/data', async (req, res) => {
     try {
-      const row = db.prepare('SELECT content FROM church_data WHERE id = ?').get('main');
-      if (row) {
-        res.json(JSON.parse(row.content));
+      const result = await pool.query('SELECT content FROM church_data WHERE id = $1', ['main']);
+      if (result.rows.length > 0) {
+        res.json(JSON.parse(result.rows[0].content));
       } else {
         res.json(null);
       }
     } catch (error) {
+      console.error('Fetch error:', error);
       res.status(500).json({ error: 'Failed to fetch data' });
     }
   });
 
-  app.post('/api/save', (req, res) => {
+  app.post('/api/save', async (req, res) => {
     try {
       const content = JSON.stringify(req.body);
-      // Update vs Insert logic (Upsert)
-      const stmt = db.prepare(`
-        INSERT INTO church_data (id, content) VALUES (?, ?)
-        ON CONFLICT(id) DO UPDATE SET content = excluded.content
-      `);
-      stmt.run('main', content);
+      await pool.query(`
+        INSERT INTO church_data (id, content) VALUES ($1, $2)
+        ON CONFLICT(id) DO UPDATE SET content = EXCLUDED.content
+      `, ['main', content]);
       res.json({ success: true });
     } catch (error) {
       console.error('Save error:', error);
