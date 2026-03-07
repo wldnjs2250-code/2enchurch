@@ -1,5 +1,4 @@
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
 import pg from 'pg';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,8 +8,17 @@ dotenv.config();
 
 const { Pool } = pg;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Helper to get __dirname in ESM
+const getDirname = () => {
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    return path.dirname(__filename);
+  } catch (e) {
+    return process.cwd();
+  }
+};
+
+const __dirname = getDirname();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -89,12 +97,14 @@ export async function createServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production' && !process.env.NETLIFY) {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else {
+  } else if (!process.env.NETLIFY) {
+    // Standard production server (not Netlify)
     app.use(express.static(path.join(__dirname, 'dist')));
     app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, 'dist', 'index.html'));
