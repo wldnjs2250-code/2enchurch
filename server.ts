@@ -14,36 +14,49 @@ const __dirname = path.dirname(__filename);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
+  ssl: process.env.DATABASE_URL?.includes('localhost') ? false : {
     rejectUnauthorized: false
   }
 });
 
 // Initialize database
 async function initDb() {
-  const client = await pool.connect();
+  if (!process.env.DATABASE_URL) {
+    console.error('CRITICAL: DATABASE_URL environment variable is missing.');
+    console.error('Please add DATABASE_URL to your environment variables/secrets.');
+    return;
+  }
+
   try {
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS church_data (
-        id TEXT PRIMARY KEY,
-        content TEXT NOT NULL
-      )
-    `);
-  } finally {
-    client.release();
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS church_data (
+          id TEXT PRIMARY KEY,
+          content TEXT NOT NULL
+        )
+      `);
+      console.log('Database initialized successfully');
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error('Failed to connect to the database. Check if DATABASE_URL is correct.');
+    console.error('Error details:', err instanceof Error ? err.message : err);
   }
 }
 
 initDb().catch(err => console.error('DB Init Error:', err));
 
-async function startServer() {
+export async function createServer() {
   const app = express();
-  const PORT = 3000;
-
   app.use(express.json());
 
   // API Routes
   app.get('/api/data', async (req, res) => {
+    if (!process.env.DATABASE_URL) {
+      return res.status(500).json({ error: 'DATABASE_URL is not configured' });
+    }
     try {
       const result = await pool.query('SELECT content FROM church_data WHERE id = $1', ['main']);
       if (result.rows.length > 0) {
@@ -58,6 +71,9 @@ async function startServer() {
   });
 
   app.post('/api/save', async (req, res) => {
+    if (!process.env.DATABASE_URL) {
+      return res.status(500).json({ error: 'DATABASE_URL is not configured' });
+    }
     try {
       const content = JSON.stringify(req.body);
       await pool.query(`
@@ -72,7 +88,7 @@ async function startServer() {
   });
 
   // Vite middleware for development
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && !process.env.NETLIFY) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -85,9 +101,14 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  return app;
 }
 
-startServer();
+if (process.env.NODE_ENV !== 'production' && !process.env.NETLIFY) {
+  createServer().then(app => {
+    const PORT = 3000;
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  });
+}
