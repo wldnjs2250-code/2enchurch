@@ -39,7 +39,7 @@ export default function Location() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Info Cards */}
-          <div className="lg:col-span-1 flex flex-col lg:h-[600px] space-y-4">
+          <div className="lg:col-span-1 flex flex-col lg:min-h-[600px] space-y-4">
             <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 flex flex-col justify-center items-center text-center group hover:border-green-700 transition-colors flex-1">
               <div className="bg-green-50 p-4 rounded-2xl text-green-700 mb-4 group-hover:bg-green-700 group-hover:text-white transition-all">
                 <MapPin size={24} />
@@ -73,11 +73,11 @@ export default function Location() {
                 <div className="space-y-6">
                   <div>
                     <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">위치 설명</h4>
-                    <p className="text-sm leading-relaxed text-slate-200 line-clamp-2">{info.locationDesc}</p>
+                    <p className="text-sm leading-relaxed text-slate-200">{info.locationDesc}</p>
                   </div>
                   <div>
                     <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">주차 안내</h4>
-                    <p className="text-sm leading-relaxed text-slate-200 line-clamp-2">{info.parkingInfo}</p>
+                    <p className="text-sm leading-relaxed text-slate-200">{info.parkingInfo}</p>
                   </div>
                 </div>
               </div>
@@ -85,7 +85,7 @@ export default function Location() {
           </div>
 
           {/* Map Area */}
-          <div className="lg:col-span-2 bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 h-[600px] relative">
+          <div className="lg:col-span-2 bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 min-h-[600px] h-full relative">
             <iframe
               width="100%"
               height="100%"
